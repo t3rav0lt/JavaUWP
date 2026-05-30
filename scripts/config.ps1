@@ -9,13 +9,13 @@
 #   MC_ASSET_INDEX          -> MinecraftAssetIndex
 #   FABRIC_LOADER_VERSION   -> FabricLoaderVersion
 $ProjectConfig = [ordered]@{
-    MinecraftVersion         = if ($env:MC_VERSION)            { $env:MC_VERSION }            else { "1.21.11" }
-    MinecraftAssetIndex      = if ($env:MC_ASSET_INDEX)        { $env:MC_ASSET_INDEX }        else { "29" }
+    MinecraftVersion         = if ($env:MC_VERSION)            { $env:MC_VERSION }            else { "26.1.2" }
+    MinecraftAssetIndex      = if ($env:MC_ASSET_INDEX)        { $env:MC_ASSET_INDEX }        else { "30" }
     FabricLoaderVersion      = if ($env:FABRIC_LOADER_VERSION) { $env:FABRIC_LOADER_VERSION } else { "0.19.2" }
     MixinVersion             = "0.17.2+mixin.0.8.7"
     JnaVersion               = "5.17.0"
-    LwjglGlfwVersion         = "3.3.3"
-    JavaRelease              = 21
+    LwjglGlfwVersion         = "3.4.1"
+    JavaRelease              = 25
     CompatModId              = "banditvault-xbox-compat"
     CompatModVersion         = "1.0.0"
     StagingDir               = "staging"
@@ -24,7 +24,7 @@ $ProjectConfig = [ordered]@{
     OutputDir                = "output"
     GameDir                  = "staging/cache/gameDir"
     AssetsDir                = "staging/cache/assets"
-    NativesDir               = "staging/cache/natives-1.21"
+    NativesDir               = "staging/cache/natives-26.1"
     MesaRuntimeDir           = "mesa-runtime"
     XboxOneGraphicsRuntimeDir = "xboxone-runtime"
     ToolsDir                 = "staging/cache/tools"

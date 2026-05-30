@@ -51,6 +51,9 @@ typedef void (*GLFWscrollfun)            (GLFWwindow*,double,double);
 typedef void (*GLFWdropfun)              (GLFWwindow*,int,const char**);
 typedef void (*GLFWjoystickfun)          (int,int);
 typedef void (*GLFWmonitorfun)           (GLFWmonitor*,int);
+typedef void (*GLFWpreeditfun)           (GLFWwindow*,int,const unsigned int*,unsigned int);
+typedef void (*GLFWimestatusfun)         (GLFWwindow*,int,int);
+typedef void (*GLFWpreeditcandidatefun)  (GLFWwindow*,int,int);
 typedef struct { int width,height,redBits,greenBits,blueBits,refreshRate; } GLFWvidmode;
 typedef struct { unsigned short *red,*green,*blue; unsigned int size; } GLFWgammaramp;
 typedef struct { unsigned char *pixels; int width,height; } GLFWimage;
@@ -1337,6 +1340,33 @@ extern "C" __declspec(dllexport) void glfwDestroyWindow(GLFWwindow*) {
 extern "C" __declspec(dllexport) int  glfwWindowShouldClose(GLFWwindow*) { return g_should_close ? GLFW_TRUE : GLFW_FALSE; }
 extern "C" __declspec(dllexport) void glfwSetWindowShouldClose(GLFWwindow*, int v) { g_should_close = (v != 0); }
 extern "C" __declspec(dllexport) void glfwSetWindowTitle(GLFWwindow*, const char*) {}
+extern "C" __declspec(dllexport) const char* glfwGetWindowTitle(GLFWwindow*) { return ""; }
+extern "C" __declspec(dllexport) void glfwGetPreeditCursorRectangle(GLFWwindow*, int* x, int* y, int* w, int* h) {
+    if (x) *x = 0;
+    if (y) *y = 0;
+    if (w) *w = 0;
+    if (h) *h = 0;
+}
+extern "C" __declspec(dllexport) void glfwSetPreeditCursorRectangle(GLFWwindow*, int, int, int, int) {}
+extern "C" __declspec(dllexport) void glfwResetPreeditText(GLFWwindow*) {}
+extern "C" __declspec(dllexport) const unsigned int* glfwGetPreeditCandidate(GLFWwindow*, int, int* textCount) {
+    if (textCount) {
+        *textCount = 0;
+    }
+    return NULL;
+}
+extern "C" __declspec(dllexport) GLFWpreeditfun glfwSetPreeditCallback(GLFWwindow*, GLFWpreeditfun cbfun) {
+    (void)cbfun;
+    return NULL;
+}
+extern "C" __declspec(dllexport) GLFWimestatusfun glfwSetIMEStatusCallback(GLFWwindow*, GLFWimestatusfun cbfun) {
+    (void)cbfun;
+    return NULL;
+}
+extern "C" __declspec(dllexport) GLFWpreeditcandidatefun glfwSetPreeditCandidateCallback(GLFWwindow*, GLFWpreeditcandidatefun cbfun) {
+    (void)cbfun;
+    return NULL;
+}
 extern "C" __declspec(dllexport) void glfwSetWindowIcon(GLFWwindow*, int, const GLFWimage*) {}
 extern "C" __declspec(dllexport) void glfwGetWindowPos(GLFWwindow*, int*x, int*y) { if(x)*x=0; if(y)*y=0; }
 extern "C" __declspec(dllexport) void glfwSetWindowPos(GLFWwindow*, int, int) {}

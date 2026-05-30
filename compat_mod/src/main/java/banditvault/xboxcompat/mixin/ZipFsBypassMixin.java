@@ -11,11 +11,12 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import net.minecraft.util.FileSystemUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(net.minecraft.class_10619.class)
+@Mixin(FileSystemUtil.class)
 public abstract class ZipFsBypassMixin {
     @Unique
     private static final ConcurrentMap<Path, FileSystem> banditvault$zipFileSystems = new ConcurrentHashMap<>();
@@ -25,7 +26,7 @@ public abstract class ZipFsBypassMixin {
      * @reason ZipFileSystemProvider's URI path calls toRealPath(), which fails in Xbox Dev Mode.
      */
     @Overwrite
-    public static Path method_66590(URI uri) throws IOException {
+    public static Path safeGetPath(URI uri) throws IOException {
         try {
             return Paths.get(uri);
         } catch (FileSystemNotFoundException ignored) {

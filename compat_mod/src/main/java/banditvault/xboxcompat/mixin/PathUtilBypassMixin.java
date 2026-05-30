@@ -3,11 +3,11 @@ package banditvault.xboxcompat.mixin;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import net.minecraft.class_4239;
+import net.minecraft.util.FileUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(class_4239.class)
+@Mixin(FileUtil.class)
 public abstract class PathUtilBypassMixin {
     /**
      * @author Codex
@@ -17,7 +17,7 @@ public abstract class PathUtilBypassMixin {
      * canonicalization step and create it directly.
      */
     @Overwrite
-    public static void method_47525(Path path) throws IOException {
+    public static void createDirectoriesSafe(Path path) throws IOException {
         Files.createDirectories(path);
     }
 }

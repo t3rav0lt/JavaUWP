@@ -1,59 +1,59 @@
 package banditvault.xboxcompat.mixin;
 
 import banditvault.xboxcompat.XboxCompatLog;
-import net.minecraft.class_310;
-import net.minecraft.class_437;
-import net.minecraft.class_542;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.main.GameConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(class_310.class)
+@Mixin(Minecraft.class)
 public abstract class MinecraftClientProbeMixin {
     private static long banditvault$tickCount = 0L;
     private static boolean banditvault$uncaughtHandlerInstalled = false;
 
     @Shadow
-    public class_437 field_1755;
+    public Screen screen;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void banditvault$logClientConstructed(class_542 args, CallbackInfo ci) {
+    private void banditvault$logClientConstructed(GameConfig args, CallbackInfo ci) {
         XboxCompatLog.log("MinecraftClient constructed");
         banditvault$installUncaughtExceptionHandler();
     }
 
-    @Inject(method = "method_1514", at = @At("HEAD"))
+    @Inject(method = "run", at = @At("HEAD"))
     private void banditvault$logMainLoopEntered(CallbackInfo ci) {
         XboxCompatLog.log("MinecraftClient main loop entered");
     }
 
-    @Inject(method = "method_1514", at = @At("TAIL"))
+    @Inject(method = "run", at = @At("TAIL"))
     private void banditvault$logMainLoopExited(CallbackInfo ci) {
         XboxCompatLog.log("MinecraftClient main loop exited");
     }
 
-    @Inject(method = "method_1507", at = @At("HEAD"))
-    private void banditvault$logSetScreenHead(class_437 screen, CallbackInfo ci) {
+    @Inject(method = "setScreen", at = @At("HEAD"))
+    private void banditvault$logSetScreenHead(Screen screen, CallbackInfo ci) {
         XboxCompatLog.log("setScreen head -> " + banditvault$screenName(screen));
     }
 
-    @Inject(method = "method_1507", at = @At("TAIL"))
-    private void banditvault$logSetScreenTail(class_437 screen, CallbackInfo ci) {
-        XboxCompatLog.log("setScreen tail -> current=" + banditvault$screenName(this.field_1755));
+    @Inject(method = "setScreen", at = @At("TAIL"))
+    private void banditvault$logSetScreenTail(Screen screen, CallbackInfo ci) {
+        XboxCompatLog.log("setScreen tail -> current=" + banditvault$screenName(this.screen));
     }
 
-    @Inject(method = "method_1574", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))
     private void banditvault$logClientTick(CallbackInfo ci) {
         banditvault$tickCount++;
         if (banditvault$tickCount <= 5 || banditvault$tickCount % 120 == 0) {
             XboxCompatLog.log("client tick=" + banditvault$tickCount
-                + " screen=" + banditvault$screenName(this.field_1755));
+                + " screen=" + banditvault$screenName(this.screen));
         }
     }
 
-    private static String banditvault$screenName(class_437 screen) {
+    private static String banditvault$screenName(Screen screen) {
         return screen == null ? "null" : screen.getClass().getName();
     }
 

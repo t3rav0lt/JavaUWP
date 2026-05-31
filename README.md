@@ -36,7 +36,7 @@ The project is currently pre-released because it is in a playable state, but it 
 After installing a pre-release or nightly build, open the Mods page, go to the Recommended section, and install at least:
 
 - Sodium
-- Controllify
+- Controlify
 
 These are strongly recommended for performance and controller support.
 
